@@ -111,14 +111,20 @@ public class Job {
   
     public func calculateIncome(hours: Int) -> Int {
         switch self.type {
-        case .Salary( _):
-            return ()
-        case .Hourly( _):
-            return Int(hours * )
+        case .Salary(let aSalary):
+            return (aSalary)
+        case .Hourly(let rate):
+            return Int(Double(hours) * rate)
         }
     }
   
     public func raise(amt : Double) {
+        switch self.type {
+        case .Salary(let aSalary):
+            Double(aSalary) + amt
+        case .Hourly(let rate):
+            rate + amt
+        }
     }
 }
 
