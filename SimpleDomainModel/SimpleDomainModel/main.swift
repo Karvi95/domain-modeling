@@ -180,7 +180,8 @@ public class Family {
   
     public init(spouse1: Person, spouse2: Person) {
         if (spouse1.spouse == nil && spouse2.spouse == nil) {
-            
+            members[0] = spouse1
+            members[1] = spouse2
         }
     }
   
