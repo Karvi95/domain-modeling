@@ -69,7 +69,7 @@ public struct Money {
         else if (self.currency == "CAN" && to == "EUR") {
             return Money(amount: (6 * (self.amount) / 5), currency: to)
         }
-        else  {
+        else {
             return Money(amount: (self.amount), currency: to)
         }
     }
@@ -95,26 +95,36 @@ public struct Money {
 ////////////////////////////////////
 // Job
 //
-//public class Job {
-//    public enum JobType {
-//        case Hourly(Double)
-//        case Salary(Int)
-//    }
-//  
-//    public init(title : String, type : JobType) {
-//    }
-//  
-//    public func calculateIncome(hours: Int) -> Int {
-//        return 0
-//    }
-//  
-//    public func raise(amt : Double) {
-//    }
-//}
+public class Job {
+    public var title : String
+    public var type : JobType
+    
+    public enum JobType {
+        case Hourly(Double)
+        case Salary(Int)
+    }
+  
+    public init(title : String, type : JobType) {
+        self.title = title
+        self.type = type
+    }
+  
+    public func calculateIncome(hours: Int) -> Int {
+        switch self.type {
+        case .Salary( _):
+            return ()
+        case .Hourly( _):
+            return Int(hours * )
+        }
+    }
+  
+    public func raise(amt : Double) {
+    }
+}
+
+////////////////////////////////////
+// Person
 //
-//////////////////////////////////////
-//// Person
-////
 //public class Person {
 //    public var firstName : String = ""
 //    public var lastName : String = ""
@@ -158,14 +168,18 @@ public struct Money {
 //    }
 //}
 
-let tenUSD = Money(amount: 10, currency: "USD")
-print("Currency: \(tenUSD.currency)" + " Amount: \(tenUSD.amount)")
+let job = Job(title: "Guest Lecturer", type: Job.JobType.Salary(1000))
+//print("Currency: \(job.title)" + " Amount: \(job.JobType)")
 
-print("\nCONVERSION")
-let gbp = tenUSD.convert("GBP")
-print("Currency: \(gbp.currency)" + " Amount: \(gbp.amount)")
 
-print("\nADDITION")
-let fiveGBP = Money(amount: 5, currency: "GBP")
-let total = tenUSD.subtract(fiveGBP)
-print("Currency: \(total.currency)" + " Amount: \(total.amount)")
+//let tenUSD = Money(amount: 10, currency: "USD")
+//print("Currency: \(tenUSD.currency)" + " Amount: \(tenUSD.amount)")
+//
+//print("\nCONVERSION")
+//let gbp = tenUSD.convert("GBP")
+//print("Currency: \(gbp.currency)" + " Amount: \(gbp.amount)")
+//
+//print("\nADDITION")
+//let fiveGBP = Money(amount: 5, currency: "GBP")
+//let total = tenUSD.subtract(fiveGBP)
+//print("Currency: \(total.currency)" + " Amount: \(total.amount)")
