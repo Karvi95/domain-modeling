@@ -139,25 +139,26 @@ public class Person {
     public var job : Job? {
         get {
             if (self.age >= 16) {
-                
+                return Job(title: "WhatGoesHere", type: Job.JobType.Salary(1337))             // Incorrect. How am I supposed to get whatever was passed?
             } else {
                 return nil
             }
         }
         set(value) {
+            self.job = value
         }
     }
-  
+    
     public var spouse : Person? {
         get {
             if (self.age >= 18) {
-                
+                return Person(firstName: "", lastName: "", age:0)                             // Incorrect. How am I supposed to get whatever was passed?
             } else {
                 return nil
             }
-            
         }
         set(value) {
+            self.spouse = value
         }
     }
   
@@ -172,8 +173,8 @@ public class Person {
     }
 }
 
-//////////////////////////////////////
-//// Family
+////////////////////////////////////
+// Family
 //
 public class Family {
     private var members : [Person] = []
