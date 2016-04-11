@@ -169,7 +169,7 @@ public class Person {
     }
 
     public func toString() -> String {
-        return "[Person: firstName\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job?.title) spouse:\(self.spouse)]"
+        return "[Person: firstName\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job?.title) spouse:\(self.spouse?.firstName) \(self.spouse?.lastName)]"
     }
 }
 
@@ -207,6 +207,91 @@ public class Family {
         return sum
     }
 }
+
+////////////////////////////////////
+// MoneyExtra
+//
+public struct MoneyExtra {
+    public var amount : Int
+    public var currency : Currency
+    
+    public enum Currency : String {
+        case USD = "USD"
+        case GBP = "GBP"
+        case EUR = "EUR"
+        case CAN = "CAN"
+    }
+    
+    init(amount : Int, currency : Currency) {
+        self.amount = amount
+        self.currency = currency
+    }
+    
+    public func convert(to: Currency) -> MoneyExtra {
+        switch to {
+        case .USD:
+            if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (2 * self.amount), currency: to)
+            } else if(self.currency.rawValue == "EUR") {
+                return MoneyExtra(amount: ((2 * self.amount) / 3), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (4 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .GBP:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: (self.amount / 2), currency: to)
+            } else if(self.currency.rawValue == "EUR") {
+                return MoneyExtra(amount: (self.amount / 3), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (2 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .EUR:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: ((3 * self.amount) / 2), currency: to)
+            } else if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (3 * self.amount), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (6 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .CAN:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: (5 * (self.amount) / 4), currency: to)
+            } else if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (5 * (self.amount) / 2), currency: to)
+            } else if(self.currency.rawValue == "EUR"){
+                return MoneyExtra(amount: (5 * (self.amount) / 6), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        }
+    }
+    
+    public func add(to: MoneyExtra) -> MoneyExtra {
+        if (self.currency.rawValue != to.currency.rawValue) {
+            let converted = self.convert(to.currency)
+            return MoneyExtra(amount: (converted.amount + to.amount), currency: to.currency)
+        } else {
+            return MoneyExtra(amount: (self.amount + to.amount), currency: to.currency)
+        }
+    }
+    public func subtract(from: MoneyExtra) -> MoneyExtra {
+        if (self.currency.rawValue != from.currency.rawValue) {
+            let converted = self.convert(self.currency)
+            return MoneyExtra(amount: (from.amount - converted.amount), currency: from.currency)
+        } else {
+            return MoneyExtra(amount: (from.amount - self.amount), currency: from.currency)
+        }
+    }
+}
+
+
+
 
 let job = Job(title: "Guest Lecturer", type: Job.JobType.Salary(1000))
 //print("Currency: \(job.title)" + " Amount: \(job.JobType)")
