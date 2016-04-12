@@ -98,8 +98,8 @@ public struct Money {
 public class Job {
     public var title : String
     public var type : JobType
-    private var aSalary : Int
-    private var anHourly : Int
+    public var aSalary : Int?
+    public var anHourly : Double?
     
     public enum JobType {
         case Hourly(Double)
@@ -109,6 +109,13 @@ public class Job {
     public init(title : String, type : JobType) {
         self.title = title
         self.type = type
+        
+        switch type {
+        case .Salary(let aSalary):
+            self.aSalary = aSalary
+        case .Hourly(let rate):
+            self.anHourly = rate
+        }
     }
   
     public func calculateIncome(hours: Int) -> Int {
@@ -117,9 +124,9 @@ public class Job {
             self.aSalary = aSalary
             return (aSalary)
         case .Hourly(let rate):
-            let returner = Int(Double(hours) * rate)
+            let returner = Double(hours) * rate
             self.anHourly = returner
-            return returner
+            return Int(returner)
         }
     }
   
@@ -214,8 +221,7 @@ public class Family {
         var sum = 0
         for i in 0..<members.count {
             if (members[i].job != nil) {
-                sum += (members[i].job!.aSalary + (members[i].job?.anHourly)!)
-                print("Hello: \(members[i].job!.aSalary)")
+                sum += (members[i].job!.aSalary!)
             }
         }
         
@@ -311,5 +317,12 @@ ted.job = Job(title: "Gues Lecturer", type: Job.JobType.Salary(1000))
 let charlotte = Person(firstName: "Charlotte", lastName: "Neward", age: 45)
 
 let family = Family(spouse1: ted, spouse2: charlotte)
+
+let mike = Person(firstName: "Mike", lastName: "Neward", age: 22)
+mike.job = Job(title: "Burger-Flipper", type: Job.JobType.Hourly(5.5))
+
+let matt = Person(firstName: "Matt", lastName: "Neward", age: 16)
+family.haveChild(mike)
+family.haveChild(matt)
 
 let familyIncome = family.householdIncome()
