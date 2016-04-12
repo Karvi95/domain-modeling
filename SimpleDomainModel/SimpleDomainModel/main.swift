@@ -120,10 +120,10 @@ public class Job {
   
     public func raise(amt : Double) {
         switch self.type {
-        case .Salary(let aSalary):
-            Double(aSalary) + amt         // Where is the initial ammount stored?
-        case .Hourly(let rate):
-            rate + amt
+        case .Salary(var aSalary):
+            aSalary = aSalary + Int(amt)         // Where is the initial ammount stored?
+        case .Hourly(var rate):
+            rate = rate + amt
         }
     }
 }
@@ -138,7 +138,7 @@ public class Person {
 
     public var job : Job? {
         get {
-            if (self.age >= 16) {
+            if (self.age < 16) {
                 return Job(title: "WhatGoesHere", type: Job.JobType.Salary(1337))             // Incorrect. How am I supposed to get whatever was passed?
             } else {
                 return nil
