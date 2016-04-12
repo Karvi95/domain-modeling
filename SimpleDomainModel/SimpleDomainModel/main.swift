@@ -8,7 +8,7 @@
 
 import Foundation
 
-print("Hello, World!")
+print("Hello World!")
 
 public func testMe() -> String {
 return "I have been tested"
@@ -98,6 +98,8 @@ public struct Money {
 public class Job {
     public var title : String
     public var type : JobType
+    private var aSalary : Int
+    private var anHourly : Int
     
     public enum JobType {
         case Hourly(Double)
@@ -112,9 +114,12 @@ public class Job {
     public func calculateIncome(hours: Int) -> Int {
         switch self.type {
         case .Salary(let aSalary):
+            self.aSalary = aSalary
             return (aSalary)
         case .Hourly(let rate):
-            return Int(Double(hours) * rate)
+            let returner = Int(Double(hours) * rate)
+            self.anHourly = returner
+            return returner
         }
     }
   
@@ -186,8 +191,8 @@ public class Family {
         if (spouse1.spouse == nil && spouse2.spouse == nil) {
             spouse1.spouse = spouse2
             spouse2.spouse = spouse1
-            members[0] = spouse1
-            members[1] = spouse2
+            members.append(spouse1)
+            members.append(spouse2)
         }
     }
   
@@ -199,7 +204,7 @@ public class Family {
             }
         }
         if (possible) {
-            members[members.count] = child
+            members.append(child)
         }
         
         return possible
@@ -209,7 +214,8 @@ public class Family {
         var sum = 0
         for i in 0..<members.count {
             if (members[i].job != nil) {
-                sum += 1 //Figure out how to get at their Income
+                sum += (members[i].job!.aSalary + (members[i].job?.anHourly)!)
+                print("Hello: \(members[i].job!.aSalary)")
             }
         }
         
@@ -220,87 +226,90 @@ public class Family {
 ////////////////////////////////////
 // MoneyExtra
 //
-//public struct MoneyExtra {
-//    public var amount : Int
-//    public var currency : Currency
-//    
-//    public enum Currency : String {
-//        case USD = "USD"
-//        case GBP = "GBP"
-//        case EUR = "EUR"
-//        case CAN = "CAN"
-//    }
-//    
-//    init(amount : Int, currency : Currency) {
-//        self.amount = amount
-//        self.currency = currency
-//    }
-//    
-//    public func convert(to: Currency) -> MoneyExtra {
-//        switch to {
-//        case .USD:
-//            if(self.currency.rawValue == "GBP") {
-//                return MoneyExtra(amount: (2 * self.amount), currency: to)
-//            } else if(self.currency.rawValue == "EUR") {
-//                return MoneyExtra(amount: ((2 * self.amount) / 3), currency: to)
-//            } else if(self.currency.rawValue == "CAN"){
-//                return MoneyExtra(amount: (4 * (self.amount) / 5), currency: to)
-//            } else {
-//                return MoneyExtra(amount: (self.amount), currency: to)
-//            }
-//        case .GBP:
-//            if(self.currency.rawValue == "USD") {
-//                return MoneyExtra(amount: (self.amount / 2), currency: to)
-//            } else if(self.currency.rawValue == "EUR") {
-//                return MoneyExtra(amount: (self.amount / 3), currency: to)
-//            } else if(self.currency.rawValue == "CAN"){
-//                return MoneyExtra(amount: (2 * (self.amount) / 5), currency: to)
-//            } else {
-//                return MoneyExtra(amount: (self.amount), currency: to)
-//            }
-//        case .EUR:
-//            if(self.currency.rawValue == "USD") {
-//                return MoneyExtra(amount: ((3 * self.amount) / 2), currency: to)
-//            } else if(self.currency.rawValue == "GBP") {
-//                return MoneyExtra(amount: (3 * self.amount), currency: to)
-//            } else if(self.currency.rawValue == "CAN"){
-//                return MoneyExtra(amount: (6 * (self.amount) / 5), currency: to)
-//            } else {
-//                return MoneyExtra(amount: (self.amount), currency: to)
-//            }
-//        case .CAN:
-//            if(self.currency.rawValue == "USD") {
-//                return MoneyExtra(amount: (5 * (self.amount) / 4), currency: to)
-//            } else if(self.currency.rawValue == "GBP") {
-//                return MoneyExtra(amount: (5 * (self.amount) / 2), currency: to)
-//            } else if(self.currency.rawValue == "EUR"){
-//                return MoneyExtra(amount: (5 * (self.amount) / 6), currency: to)
-//            } else {
-//                return MoneyExtra(amount: (self.amount), currency: to)
-//            }
-//        }
-//    }
-//    
-//    public func add(to: MoneyExtra) -> MoneyExtra {
-//        if (self.currency.rawValue != to.currency.rawValue) {
-//            let converted = self.convert(to.currency)
-//            return MoneyExtra(amount: (converted.amount + to.amount), currency: to.currency)
-//        } else {
-//            return MoneyExtra(amount: (self.amount + to.amount), currency: to.currency)
-//        }
-//    }
-//    public func subtract(from: MoneyExtra) -> MoneyExtra {
-//        if (self.currency.rawValue != from.currency.rawValue) {
-//            let converted = self.convert(self.currency)
-//            return MoneyExtra(amount: (from.amount - converted.amount), currency: from.currency)
-//        } else {
-//            return MoneyExtra(amount: (from.amount - self.amount), currency: from.currency)
-//        }
-//    }
-//}
+public struct MoneyExtra {
+    public var amount : Int
+    public var currency : Currency
+    
+    public enum Currency : String {
+        case USD = "USD"
+        case GBP = "GBP"
+        case EUR = "EUR"
+        case CAN = "CAN"
+    }
+    
+    init(amount : Int, currency : Currency) {
+        self.amount = amount
+        self.currency = currency
+    }
+    
+    public func convert(to: Currency) -> MoneyExtra {
+        switch to {
+        case .USD:
+            if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (2 * self.amount), currency: to)
+            } else if(self.currency.rawValue == "EUR") {
+                return MoneyExtra(amount: ((2 * self.amount) / 3), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (4 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .GBP:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: (self.amount / 2), currency: to)
+            } else if(self.currency.rawValue == "EUR") {
+                return MoneyExtra(amount: (self.amount / 3), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (2 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .EUR:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: ((3 * self.amount) / 2), currency: to)
+            } else if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (3 * self.amount), currency: to)
+            } else if(self.currency.rawValue == "CAN"){
+                return MoneyExtra(amount: (6 * (self.amount) / 5), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        case .CAN:
+            if(self.currency.rawValue == "USD") {
+                return MoneyExtra(amount: (5 * (self.amount) / 4), currency: to)
+            } else if(self.currency.rawValue == "GBP") {
+                return MoneyExtra(amount: (5 * (self.amount) / 2), currency: to)
+            } else if(self.currency.rawValue == "EUR"){
+                return MoneyExtra(amount: (5 * (self.amount) / 6), currency: to)
+            } else {
+                return MoneyExtra(amount: (self.amount), currency: to)
+            }
+        }
+    }
+    
+    public func add(to: MoneyExtra) -> MoneyExtra {
+        if (self.currency.rawValue != to.currency.rawValue) {
+            let converted = self.convert(to.currency)
+            return MoneyExtra(amount: (converted.amount + to.amount), currency: to.currency)
+        } else {
+            return MoneyExtra(amount: (self.amount + to.amount), currency: to.currency)
+        }
+    }
+    public func subtract(from: MoneyExtra) -> MoneyExtra {
+        if (self.currency.rawValue != from.currency.rawValue) {
+            let converted = self.convert(self.currency)
+            return MoneyExtra(amount: (from.amount - converted.amount), currency: from.currency)
+        } else {
+            return MoneyExtra(amount: (from.amount - self.amount), currency: from.currency)
+        }
+    }
+}
 
+let ted = Person(firstName: "Ted", lastName: "Neward", age: 45)
+ted.job = Job(title: "Gues Lecturer", type: Job.JobType.Salary(1000))
 
+let charlotte = Person(firstName: "Charlotte", lastName: "Neward", age: 45)
 
+let family = Family(spouse1: ted, spouse2: charlotte)
 
-let job = Job(title: "Guest Lecturer", type: Job.JobType.Salary(1000))
-//print("Currency: \(job.title)" + " Amount: \(job.JobType)")
+let familyIncome = family.householdIncome()

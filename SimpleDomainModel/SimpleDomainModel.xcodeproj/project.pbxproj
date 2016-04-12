@@ -338,6 +338,7 @@
 				FE68911D1CB5D8E40018C340 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FE6891271CB5D90B0018C340 /* Build configuration list for PBXNativeTarget "SimpleDomainModelTests" */ = {
 			isa = XCConfigurationList;
@@ -346,6 +347,7 @@
 				FE6891291CB5D90B0018C340 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

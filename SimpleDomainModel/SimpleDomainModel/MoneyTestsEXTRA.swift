@@ -11,28 +11,28 @@ import XCTest
 import SimpleDomainModel
 
 //////////////////
-// MoneyTests
+// MoneyEXTRATests
 //
 class MoneyEXTRATests: XCTestCase {
   
-  let tenUSD = Money(amount: 10, currency: "USD")
-  let twelveUSD = Money(amount: 12, currency: "USD")
-  let fiveGBP = Money(amount: 5, currency: "GBP")
-  let fifteenEUR = Money(amount: 15, currency: "EUR")
-  let fifteenCAN = Money(amount: 15, currency: "CAN")
+  let tenUSD = Money(amount: 10, currency: Currency(rawValue: "USD"))
+  let twelveUSD = Money(amount: 12, currency: Currency(rawValue: "USD"))
+  let fiveGBP = Money(amount: 5, currency: Currency(rawValue: "USD"))
+  let fifteenEUR = Money(amount: 15, currency: Currency(rawValue: "USD"))
+  let fifteenCAN = Money(amount: 15, currency: Currency(rawValue: "USD"))
   
   func testCanICreateMoney() {
-    let oneUSD = Money(amount: 1, currency: "USD")
+    let oneUSD = Money(amount: 1, currency: Currency(rawValue: "USD"))
     XCTAssert(oneUSD.amount == 1)
-    XCTAssert(oneUSD.currency == "USD")
+    XCTAssert(oneUSD.currency ==  Currency(rawValue: "USD"))
     
-    let tenGBP = Money(amount: 10, currency: "GBP")
+    let tenGBP = Money(amount: 10, currency: Currency(rawValue: "USD"))
     XCTAssert(tenGBP.amount == 10)
-    XCTAssert(tenGBP.currency == "GBP")
+    XCTAssert(tenGBP.currency ==  Currency(rawValue: "USD"))
   }
   
   func testUSDtoGBP() {
-    let gbp = tenUSD.convert("GBP")
+    let gbp = tenUSD.convert(Currency(rawValue: "USD"))
     XCTAssert(gbp.currency == "GBP")
     XCTAssert(gbp.amount == 5)
   }
