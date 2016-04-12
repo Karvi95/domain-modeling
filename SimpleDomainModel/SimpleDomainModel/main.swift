@@ -138,27 +138,27 @@ public class Person {
 
     public var job : Job? {
         get {
-            if (self.age < 16) {
-                return self.job                                 // Incorrect. How am I supposed to get whatever was passed?
-            } else {
-                return nil
-            }
+            return self.job
         }
         set(value) {
-            self.job = value
+            if (self.age >= 16) {
+                self.job = value
+            } else {
+                self.job = nil
+            }
         }
     }
     
     public var spouse : Person? {
         get {
-            if (self.age >= 18) {
-                return self.spouse                             // Incorrect. How am I supposed to get whatever was passed?
-            } else {
-                return nil
-            }
+            return self.spouse
         }
         set(value) {
-            self.spouse = value
+            if (self.age >= 18) {
+                self.spouse = value
+            } else {
+                self.job = nil
+            }
         }
     }
   
@@ -169,7 +169,7 @@ public class Person {
     }
 
     public func toString() -> String {
-        return "[Person: firstName\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job?.title) spouse:\(self.spouse?.firstName) \(self.spouse?.lastName)]"
+        return ""//"[Person: firstName\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job?.title) spouse:\(self.spouse?.firstName) \(self.spouse?.lastName)]"
     }
 }
 
