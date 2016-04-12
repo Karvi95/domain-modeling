@@ -98,8 +98,6 @@ public struct Money {
 public class Job {
     public var title : String
     public var type : JobType
-    public var aSalary : Int?
-    public var anHourly : Double?
     
     public enum JobType {
         case Hourly(Double)
@@ -109,24 +107,14 @@ public class Job {
     public init(title : String, type : JobType) {
         self.title = title
         self.type = type
-        
-        switch type {
-        case .Salary(let aSalary):
-            self.aSalary = aSalary
-        case .Hourly(let rate):
-            self.anHourly = rate
-        }
     }
   
     public func calculateIncome(hours: Int) -> Int {
         switch self.type {
         case .Salary(let aSalary):
-            self.aSalary = aSalary
             return (aSalary)
         case .Hourly(let rate):
-            let returner = Double(hours) * rate
-            self.anHourly = returner
-            return Int(returner)
+            return Int(Double(hours) * rate)
         }
     }
   
@@ -221,7 +209,7 @@ public class Family {
         var sum = 0
         for i in 0..<members.count {
             if (members[i].job != nil) {
-                sum += (members[i].job!.aSalary!)
+                sum += members[i].job!.calculateIncome(2000)
             }
         }
         
