@@ -135,29 +135,32 @@ public class Person {
     public var firstName : String = ""
     public var lastName : String = ""
     public var age : Int = 0
+    
+    private var myJob : Job?
+    private var mySpouse : Person?
 
     public var job : Job? {
         get {
-            return self.job
+            return self.myJob
         }
         set(value) {
             if (self.age >= 16) {
-                self.job = value
+                self.myJob = value
             } else {
-                self.job = nil
+                self.myJob = nil
             }
         }
     }
     
     public var spouse : Person? {
         get {
-            return self.spouse
+            return self.mySpouse
         }
         set(value) {
             if (self.age >= 18) {
-                self.spouse = value
+                self.mySpouse = value
             } else {
-                self.job = nil
+                self.mySpouse = nil
             }
         }
     }
@@ -169,7 +172,7 @@ public class Person {
     }
 
     public func toString() -> String {
-        return ""//"[Person: firstName\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job?.title) spouse:\(self.spouse?.firstName) \(self.spouse?.lastName)]"
+        return "[Person: firstName:\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job) spouse:\(self.spouse)]"
     }
 }
 
@@ -181,19 +184,24 @@ public class Family {
   
     public init(spouse1: Person, spouse2: Person) {
         if (spouse1.spouse == nil && spouse2.spouse == nil) {
+            spouse1.spouse = spouse2
+            spouse2.spouse = spouse1
             members[0] = spouse1
             members[1] = spouse2
         }
     }
   
-    public func haveChild(child: Person) -> Bool {  // Wait, if I'm supposed to add a new Person to the collection of age 0, why am I passed in a parameter?
+    public func haveChild(child: Person) -> Bool {
         var possible = false
         for i in 0..<members.count {
             if (members[i].age > 21) {
                 possible = true
             }
         }
-        members[members.count] = child
+        if (possible) {
+            members[members.count] = child
+        }
+        
         return possible
     }
   
@@ -204,6 +212,7 @@ public class Family {
                 sum += 1 //Figure out how to get at their Income
             }
         }
+        
         return sum
     }
 }
