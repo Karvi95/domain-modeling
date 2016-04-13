@@ -298,19 +298,3 @@ public struct MoneyExtra {
         }
     }
 }
-
-let ted = Person(firstName: "Ted", lastName: "Neward", age: 45)
-ted.job = Job(title: "Gues Lecturer", type: Job.JobType.Salary(1000))
-
-let charlotte = Person(firstName: "Charlotte", lastName: "Neward", age: 45)
-
-let family = Family(spouse1: ted, spouse2: charlotte)
-
-let mike = Person(firstName: "Mike", lastName: "Neward", age: 22)
-mike.job = Job(title: "Burger-Flipper", type: Job.JobType.Hourly(5.5))
-
-let matt = Person(firstName: "Matt", lastName: "Neward", age: 16)
-family.haveChild(mike)
-family.haveChild(matt)
-
-let familyIncome = family.householdIncome()
